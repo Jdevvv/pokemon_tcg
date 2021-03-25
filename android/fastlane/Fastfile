@@ -1,0 +1,16 @@
+default_platform(:android)
+platform :android do
+  #bundle exec fastlane send_to_testers
+  desc "Sending version to App Distribution"
+  lane :send_to_testers do
+    sh("cd ../../../pokemon_tcg && flutter clean")
+    sh("cd ../../../pokemon_tcg && flutter pub get")
+    sh("cd ../../../pokemon_tcg && flutter build apk --release")
+    firebase_app_distribution(
+      app: "1:700439962717:android:491de881586d018d1c59b4",
+      apk_path: "/home/jerem/Documents/repos/Flutter/pokemon_tcg/build/app/outputs/flutter-apk/app-release.apk",
+      release_notes: "New version from Fastlane",
+      testers: "llanta.jeremy@gmail.com"
+    )
+  end
+end
